@@ -1,14 +1,7 @@
-import {
-  Button,
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableRow,
-} from "@mui/material";
 import { useState } from "react";
+import BookTable from "./BookTable";
 
-type Book = {
+export type Book = {
   id: number;
   title: string;
   subject: string;
@@ -30,38 +23,15 @@ let defaultBooks: Book[] = [
 export default function App() {
   const [books, setBooks] = useState(defaultBooks);
 
-  function renderBook(book: Book) {
-    return (
-      <TableRow key={book.id}>
-        <TableCell>
-          <Button
-            onClick={() => {
-              setBooks(books.filter((b) => b.id !== book.id));
-            }}
-          >
-            Delete
-          </Button>
-        </TableCell>
-        <TableCell>{book.title}</TableCell>
-        <TableCell>{book.subject}</TableCell>
-      </TableRow>
-    );
+  function renderResults() {
+    if (books.length === 0) return <p>No books in the library.</p>;
+    return <BookTable books={books} setBooks={setBooks} />;
   }
 
   return (
     <>
       <h1>Library App</h1>
-
-      <Table>
-        <TableHead>
-          <TableRow>
-            <TableCell></TableCell>
-            <TableCell>Title</TableCell>
-            <TableCell>Subject</TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>{books.map(renderBook)}</TableBody>
-      </Table>
+      {renderResults()}
     </>
   );
 }
