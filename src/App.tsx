@@ -1,5 +1,10 @@
-import { TableBody, TableCell, TableHead, TableRow } from "@mui/material";
-import Table from "@mui/material/Table";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableRow,
+} from "@mui/material";
 
 type Book = {
   id: number;
