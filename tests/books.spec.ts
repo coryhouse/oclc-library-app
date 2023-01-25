@@ -11,6 +11,12 @@ test("should display a list of books and support deleting all books", async ({
   const book1 = page.getByText(book1Title);
   const book2 = page.getByText(book2Title);
 
+  // Should display at first
+  await expect(page.getByRole("progressbar")).toHaveCount(1);
+
+  // Should hide after loading completes.
+  await expect(page.getByRole("progressbar")).toHaveCount(0);
+
   await expect(book1).toHaveCount(1);
   await page.getByRole("button", { name: "Delete " + book1Title }).click();
   await expect(book1).toHaveCount(0);

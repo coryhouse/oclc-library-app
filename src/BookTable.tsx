@@ -1,5 +1,7 @@
 import {
+  Alert,
   IconButton,
+  Snackbar,
   Table,
   TableBody,
   TableCell,
@@ -8,6 +10,7 @@ import {
 } from "@mui/material";
 import { Book } from "./Books";
 import DeleteIcon from "@mui/icons-material/Delete";
+import { useState } from "react";
 
 type BookTableProps = {
   books: Book[];
@@ -15,6 +18,8 @@ type BookTableProps = {
 };
 
 export default function BookTable({ books, setBooks }: BookTableProps) {
+  const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false);
+
   function renderBook(book: Book) {
     return (
       <TableRow key={book.id}>
@@ -23,6 +28,7 @@ export default function BookTable({ books, setBooks }: BookTableProps) {
             aria-label={"Delete " + book.title}
             onClick={() => {
               setBooks(books.filter((b) => b.id !== book.id));
+              setShowDeleteConfirmation(true);
             }}
           >
             <DeleteIcon />
@@ -34,17 +40,33 @@ export default function BookTable({ books, setBooks }: BookTableProps) {
     );
   }
 
+  function handleClose() {
+    setShowDeleteConfirmation(false);
+  }
+
   return (
-    <Table>
-      <caption>List of Books</caption>
-      <TableHead>
-        <TableRow>
-          <TableCell></TableCell>
-          <TableCell>Title</TableCell>
-          <TableCell>Subject</TableCell>
-        </TableRow>
-      </TableHead>
-      <TableBody>{books.map(renderBook)}</TableBody>
-    </Table>
+    <>
+      <Table>
+        <caption>List of Books</caption>
+        <TableHead>
+          <TableRow>
+            <TableCell></TableCell>
+            <TableCell>Title</TableCell>
+            <TableCell>Subject</TableCell>
+          </TableRow>
+        </TableHead>
+        <TableBody>{books.map(renderBook)}</TableBody>
+      </Table>
+
+      <Snackbar
+        open={showDeleteConfirmation}
+        autoHideDuration={3000}
+        onClose={handleClose}
+      >
+        <Alert onClose={handleClose} severity="success" sx={{ width: "100%" }}>
+          Book deleted.
+        </Alert>
+      </Snackbar>
+    </>
   );
 }
