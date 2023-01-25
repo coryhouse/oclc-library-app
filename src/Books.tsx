@@ -1,5 +1,7 @@
-import { useState } from "react";
+import { Box, CircularProgress } from "@mui/material";
+import { useEffect, useState } from "react";
 import BookTable from "./BookTable";
+import { getBooks } from "./services/books.service";
 
 export type Book = {
   id: number;
@@ -7,23 +9,27 @@ export type Book = {
   subject: string;
 };
 
-let defaultBooks: Book[] = [
-  {
-    id: 1,
-    title: "The Design of Everyday Things",
-    subject: "Design",
-  },
-  {
-    id: 2,
-    title: "The Most Human Human",
-    subject: "Computer Science",
-  },
-];
-
 export default function Books() {
-  const [books, setBooks] = useState(defaultBooks);
+  const [books, setBooks] = useState<Book[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    async function loadBooks() {
+      const books = await getBooks();
+      setIsLoading(false);
+      setBooks(books);
+    }
+    loadBooks();
+  }, []);
 
   function renderResults() {
+    if (isLoading) {
+      return (
+        <Box sx={{ display: "flex" }}>
+          <CircularProgress />
+        </Box>
+      );
+    }
     if (books.length === 0) return <p>No books in the library.</p>;
     return <BookTable books={books} setBooks={setBooks} />;
   }
