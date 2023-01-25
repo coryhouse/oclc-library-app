@@ -6,7 +6,7 @@ import {
   TableHead,
   TableRow,
 } from "@mui/material";
-import { Book } from "./App";
+import { Book } from "./Books";
 import DeleteIcon from "@mui/icons-material/Delete";
 
 type BookTableProps = {
