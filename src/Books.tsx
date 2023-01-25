@@ -20,7 +20,7 @@ let defaultBooks: Book[] = [
   },
 ];
 
-export default function App() {
+export default function Books() {
   const [books, setBooks] = useState(defaultBooks);
 
   function renderResults() {
