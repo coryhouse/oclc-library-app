@@ -1,5 +1,5 @@
 import {
-  Button,
+  IconButton,
   Table,
   TableBody,
   TableCell,
@@ -7,24 +7,25 @@ import {
   TableRow,
 } from "@mui/material";
 import { Book } from "./App";
+import DeleteIcon from "@mui/icons-material/Delete";
 
 type BookTableProps = {
   books: Book[];
   setBooks: (books: Book[]) => void;
 };
 
-export default function BookTable(props: BookTableProps) {
+export default function BookTable({ books, setBooks }: BookTableProps) {
   function renderBook(book: Book) {
     return (
       <TableRow key={book.id}>
         <TableCell>
-          <Button
+          <IconButton
             onClick={() => {
-              props.setBooks(props.books.filter((b) => b.id !== book.id));
+              setBooks(books.filter((b) => b.id !== book.id));
             }}
           >
-            Delete
-          </Button>
+            <DeleteIcon />
+          </IconButton>
         </TableCell>
         <TableCell>{book.title}</TableCell>
         <TableCell>{book.subject}</TableCell>
@@ -41,7 +42,7 @@ export default function BookTable(props: BookTableProps) {
           <TableCell>Subject</TableCell>
         </TableRow>
       </TableHead>
-      <TableBody>{props.books.map(renderBook)}</TableBody>
+      <TableBody>{books.map(renderBook)}</TableBody>
     </Table>
   );
 }
