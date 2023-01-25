@@ -33,7 +33,7 @@ test("should support adding a new book", async ({ page }) => {
   await expect(page.getByRole("heading", { name: "Add Book" })).toHaveCount(1);
 });
 
-test.only("should support navigating between pages via the navbar", async ({
+test("should support navigating between pages via the navbar", async ({
   page,
 }) => {
   await page.goto("http://localhost:5173");
