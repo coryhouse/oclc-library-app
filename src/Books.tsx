@@ -31,6 +31,9 @@ export default function Books() {
   return (
     <>
       <h1>Library App</h1>
+
+      <a href="/manage-book">Add Book</a>
+
       {renderResults()}
     </>
   );

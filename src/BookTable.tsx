@@ -36,6 +36,7 @@ export default function BookTable({ books, setBooks }: BookTableProps) {
 
   return (
     <Table>
+      <caption>List of Books</caption>
       <TableHead>
         <TableRow>
           <TableCell></TableCell>

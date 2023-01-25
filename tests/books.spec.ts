@@ -25,4 +25,20 @@ test("should display a list of books and support deleting all books", async ({
 
 test("should support adding a new book", async ({ page }) => {
   await page.goto("http://localhost:5173");
+  await page.getByRole("link", { name: "Add Book" }).click();
+
+  // now the URL should be manage-book
+  expect(page.url()).toBe("http://localhost:5173/manage-book");
+
+  await expect(page.getByRole("heading", { name: "Add Book" })).toHaveCount(1);
+});
+
+test.only("should support navigating between pages via the navbar", async ({
+  page,
+}) => {
+  await page.goto("http://localhost:5173");
+  await page.getByRole("link", { name: "About" }).click();
+  expect(page.url()).toBe("http://localhost:5173/about");
+  await page.getByRole("link", { name: "Home" }).click();
+  expect(page.url()).toBe("http://localhost:5173/");
 });
