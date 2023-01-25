@@ -20,6 +20,7 @@ export default function BookTable({ books, setBooks }: BookTableProps) {
       <TableRow key={book.id}>
         <TableCell>
           <IconButton
+            aria-label={"Delete " + book.title}
             onClick={() => {
               setBooks(books.filter((b) => b.id !== book.id));
             }}
