@@ -11,6 +11,7 @@ import {
 import { Book } from "./Books";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { useState } from "react";
+import { deleteBook } from "./services/books.service";
 
 type BookTableProps = {
   books: Book[];
@@ -26,7 +27,8 @@ export default function BookTable({ books, setBooks }: BookTableProps) {
         <TableCell>
           <IconButton
             aria-label={"Delete " + book.title}
-            onClick={() => {
+            onClick={async () => {
+              await deleteBook(book.id);
               setBooks(books.filter((b) => b.id !== book.id));
               setShowDeleteConfirmation(true);
             }}
@@ -60,7 +62,7 @@ export default function BookTable({ books, setBooks }: BookTableProps) {
 
       <Snackbar
         open={showDeleteConfirmation}
-        autoHideDuration={3000}
+        autoHideDuration={6000}
         onClose={handleClose}
       >
         <Alert onClose={handleClose} severity="success" sx={{ width: "100%" }}>

@@ -20,10 +20,12 @@ test("should display a list of books and support deleting all books", async ({
   await expect(book1).toHaveCount(1);
   await page.getByRole("button", { name: "Delete " + book1Title }).click();
   await expect(book1).toHaveCount(0);
+  await expect(page.getByText("Book deleted.")).toHaveCount(1);
 
   await expect(book2).toHaveCount(1);
   await page.getByRole("button", { name: "Delete " + book2Title }).click();
   await expect(book2).toHaveCount(0);
+  await expect(page.getByText("Book deleted.")).toHaveCount(1);
 
   // All books should now be deleted so this message should display
   await expect(page.getByText("No books in the library.")).toHaveCount(1);
