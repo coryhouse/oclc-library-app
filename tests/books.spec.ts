@@ -46,7 +46,7 @@ test("should support adding a new book", async ({ page }) => {
   await page.getByRole("button", { name: "Save" }).click();
 
   // Should be redirected to the home page
-  expect(page.waitForURL("http://localhost:5173/"));
+  await expect(page).toHaveURL("http://localhost:5173/");
   await expect(page.getByText("New Book")).toHaveCount(1);
   await expect(page.getByText("New Subject")).toHaveCount(1);
 });
