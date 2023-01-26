@@ -1,10 +1,12 @@
 import { Button, TextField } from "@mui/material";
 import { Stack } from "@mui/system";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { NewBook } from "./Books";
 import { addBook } from "./services/books.service";
 
 export default function ManageBook() {
+  const navigate = useNavigate();
   const [book, setBook] = useState<NewBook>({
     title: "",
     subject: "",
@@ -22,8 +24,10 @@ export default function ManageBook() {
       <h1>Add Book</h1>
 
       <form
-        onSubmit={() => {
-          addBook(book);
+        onSubmit={async (event) => {
+          event.preventDefault(); // prevent posting to server
+          await addBook(book);
+          navigate("/");
         }}
       >
         <Stack spacing={2}>
