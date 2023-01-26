@@ -27,8 +27,18 @@ export default function ManageBook() {
         }}
       >
         <Stack spacing={2}>
-          <TextField label="Title" value={book.title} onChange={onChange} />
-          <TextField label="Subject" value={book.subject} onChange={onChange} />
+          <TextField
+            name="title"
+            label="Title"
+            value={book.title}
+            onChange={onChange}
+          />
+          <TextField
+            name="subject"
+            label="Subject"
+            value={book.subject}
+            onChange={onChange}
+          />
           <Button type="submit" variant="contained">
             Save
           </Button>
