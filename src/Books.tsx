@@ -9,6 +9,8 @@ export type Book = {
   subject: string;
 };
 
+export type NewBook = Omit<Book, "id">;
+
 export default function Books() {
   const [books, setBooks] = useState<Book[]>([]);
   const [isLoading, setIsLoading] = useState(true);
