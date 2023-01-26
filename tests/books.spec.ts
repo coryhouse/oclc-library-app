@@ -39,6 +39,16 @@ test("should support adding a new book", async ({ page }) => {
   expect(page.url()).toBe("http://localhost:5173/manage-book");
 
   await expect(page.getByRole("heading", { name: "Add Book" })).toHaveCount(1);
+
+  // Fill out the form
+  await page.getByLabel("Title").fill("New Book");
+  await page.getByLabel("Subject").fill("New Subject");
+  await page.getByRole("button", { name: "Save" }).click();
+
+  // Should be redirected to the home page
+  expect(page.waitForURL("http://localhost:5173/"));
+  await expect(page.getByText("New Book")).toHaveCount(1);
+  await expect(page.getByText("New Subject")).toHaveCount(1);
 });
 
 test("should support navigating between pages via the navbar", async ({
