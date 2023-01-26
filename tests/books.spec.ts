@@ -3,7 +3,7 @@ import test, { expect, Page } from "@playwright/test";
 const book1Title = "The Design of Everyday Things";
 const book2Title = "The Most Human Human";
 
-async function checkForBooks(page) {
+async function checkForBooks(page: Page) {
   // Locator
   const book1 = page.getByText(book1Title);
   const book2 = page.getByText(book2Title);
