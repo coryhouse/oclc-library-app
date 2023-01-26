@@ -9,9 +9,14 @@ type Status = "idle" | "submitting" | "submitted";
 
 type Errors = Partial<NewBook>;
 
+type Touched = {
+  [key in keyof NewBook]?: boolean;
+};
+
 export default function ManageBook() {
   const navigate = useNavigate();
   const [status, setStatus] = useState<Status>("idle");
+  const [touched, setTouched] = useState<Touched>({});
   const [book, setBook] = useState<NewBook>({
     title: "",
     subject: "",
@@ -21,6 +26,13 @@ export default function ManageBook() {
     setBook({
       ...book,
       [event.target.name]: event.target.value,
+    });
+  }
+
+  function onBlur(event: React.FocusEvent<HTMLInputElement>) {
+    setTouched({
+      ...touched,
+      [event.target.name]: true,
     });
   }
 
@@ -37,6 +49,8 @@ export default function ManageBook() {
 
   // Derived state
   const errors = getErrors();
+
+  console.log(errors);
 
   return (
     <>
@@ -61,19 +75,31 @@ export default function ManageBook() {
             label="Title"
             value={book.title}
             onChange={onChange}
-            error={status !== "idle" && Boolean(errors.title)}
-            helperText={status !== "idle" && errors.title}
+            error={
+              (touched.title || status !== "idle") && Boolean(errors.title)
+            }
+            helperText={(touched.title || status !== "idle") && errors.title}
+            onBlur={onBlur}
           />
           <TextField
             name="subject"
             label="Subject"
             value={book.subject}
             onChange={onChange}
-            error={status !== "idle" && Boolean(errors.subject)}
-            helperText={status !== "idle" && errors.subject}
+            error={
+              (touched.subject || status !== "idle") && Boolean(errors.subject)
+            }
+            helperText={
+              (touched.subject || status !== "idle") && errors.subject
+            }
+            onBlur={onBlur}
           />
-          <Button type="submit" variant="contained">
-            Save
+          <Button
+            type="submit"
+            variant="contained"
+            disabled={status === "submitting"}
+          >
+            {status === "submitting" ? "Saving..." : "Save"}
           </Button>
         </Stack>
       </form>
