@@ -48,17 +48,21 @@ export default function BookTable({ books, setBooks }: BookTableProps) {
 
   return (
     <>
-      <Table>
-        <caption>List of Books</caption>
-        <TableHead>
-          <TableRow>
-            <TableCell></TableCell>
-            <TableCell>Title</TableCell>
-            <TableCell>Subject</TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>{books.map(renderBook)}</TableBody>
-      </Table>
+      {books.length === 0 ? (
+        <p>No books in the library.</p>
+      ) : (
+        <Table>
+          <caption>List of Books</caption>
+          <TableHead>
+            <TableRow>
+              <TableCell></TableCell>
+              <TableCell>Title</TableCell>
+              <TableCell>Subject</TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>{books.map(renderBook)}</TableBody>
+        </Table>
+      )}
 
       <Snackbar
         open={showDeleteConfirmation}

@@ -30,7 +30,6 @@ export default function Books() {
         </Box>
       );
     }
-    if (books.length === 0) return <p>No books in the library.</p>;
     return <BookTable books={books} setBooks={setBooks} />;
   }
 
