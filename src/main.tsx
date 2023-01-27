@@ -11,12 +11,14 @@ import ManageBook from "./ManageBook";
 import About from "./About";
 import Navbar from "./reusable/Navbar";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 
 const client = new QueryClient();
 
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
   <React.StrictMode>
     <QueryClientProvider client={client}>
+      <ReactQueryDevtools />
       <BrowserRouter>
         <Navbar
           links={[
