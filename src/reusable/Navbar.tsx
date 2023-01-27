@@ -6,6 +6,15 @@ type Link = {
 };
 
 type NavbarProps = {
+  /** Array of links rendered using the react-router Link component
+   *
+   * Why use this?
+   * - It's nice.
+   * - It's here.
+   *
+   * More info [here](https://www.google.com)
+   *
+   */
   links: Link[];
 };
 
