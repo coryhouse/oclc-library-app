@@ -1,5 +1,5 @@
 import { Box, CircularProgress } from "@mui/material";
-import { useEffect, useState } from "react";
+import { useQuery } from "@tanstack/react-query";
 import BookTable from "./BookTable";
 import { getBooks } from "./services/books.service";
 
@@ -12,32 +12,25 @@ export type Book = {
 export type NewBook = Omit<Book, "id">;
 
 export default function Books() {
-  const [books, setBooks] = useState<Book[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
-
-  useEffect(() => {
-    async function loadBooks() {
-      const books = await getBooks();
-      setIsLoading(false);
-      setBooks(books);
-    }
-    loadBooks();
-  }, []);
+  const bookQuery = useQuery(["books"], getBooks, {
+    initialData: [],
+  });
 
   function renderResults() {
-    if (isLoading) {
+    if (bookQuery.data.length === 0 && bookQuery.isFetching) {
       return (
         <Box sx={{ display: "flex" }}>
           <CircularProgress />
         </Box>
       );
     }
-    return <BookTable books={books} setBooks={setBooks} />;
+    return <BookTable books={bookQuery.data} />;
   }
 
   return (
     <>
       <h1>Library App</h1>
+      {bookQuery.isFetching && <p>Checking for new data...</p>}
 
       <a href="/manage-book">Add Book</a>
 

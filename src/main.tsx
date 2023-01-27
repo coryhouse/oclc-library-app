@@ -10,29 +10,34 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import ManageBook from "./ManageBook";
 import About from "./About";
 import Navbar from "./reusable/Navbar";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+
+const client = new QueryClient();
 
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
   <React.StrictMode>
-    <BrowserRouter>
-      <Navbar
-        links={[
-          {
-            label: "Home",
-            path: "/",
-          },
-          {
-            label: "About",
-            path: "/about",
-          },
-        ]}
-      />
-      <main>
-        <Routes>
-          <Route path="/" element={<Books />} />
-          <Route path="/about" element={<About />} />
-          <Route path="/manage-book" element={<ManageBook />} />
-        </Routes>
-      </main>
-    </BrowserRouter>
+    <QueryClientProvider client={client}>
+      <BrowserRouter>
+        <Navbar
+          links={[
+            {
+              label: "Home",
+              path: "/",
+            },
+            {
+              label: "About",
+              path: "/about",
+            },
+          ]}
+        />
+        <main>
+          <Routes>
+            <Route path="/" element={<Books />} />
+            <Route path="/about" element={<About />} />
+            <Route path="/manage-book" element={<ManageBook />} />
+          </Routes>
+        </main>
+      </BrowserRouter>
+    </QueryClientProvider>
   </React.StrictMode>
 );

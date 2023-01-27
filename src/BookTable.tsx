@@ -12,14 +12,23 @@ import { Book } from "./Books";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { useState } from "react";
 import { deleteBook } from "./services/books.service";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 type BookTableProps = {
   books: Book[];
-  setBooks: (books: Book[]) => void;
 };
 
-export default function BookTable({ books, setBooks }: BookTableProps) {
+export default function BookTable({ books }: BookTableProps) {
   const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false);
+  const queryClient = useQueryClient();
+
+  const mutation = useMutation({
+    mutationFn: (bookId: number) => deleteBook(bookId),
+    onSuccess: () => {
+      // Invalidate and refetch
+      queryClient.invalidateQueries({ queryKey: ["books"] });
+    },
+  });
 
   function renderBook(book: Book) {
     return (
@@ -28,9 +37,11 @@ export default function BookTable({ books, setBooks }: BookTableProps) {
           <IconButton
             aria-label={"Delete " + book.title}
             onClick={async () => {
-              await deleteBook(book.id);
-              setBooks(books.filter((b) => b.id !== book.id));
-              setShowDeleteConfirmation(true);
+              mutation.mutate(book.id, {
+                onSuccess: () => {
+                  setShowDeleteConfirmation(true);
+                },
+              });
             }}
           >
             <DeleteIcon />
