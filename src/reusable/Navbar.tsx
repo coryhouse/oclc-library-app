@@ -1,6 +1,7 @@
 import { NavLink } from "react-router-dom";
 
 type Link = {
+  /** Link label */
   label: string;
   path: string;
 };
