@@ -14,7 +14,18 @@ import Navbar from "./reusable/Navbar";
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
   <React.StrictMode>
     <BrowserRouter>
-      <Navbar />
+      <Navbar
+        links={[
+          {
+            label: "Home",
+            path: "/",
+          },
+          {
+            label: "About",
+            path: "/about",
+          },
+        ]}
+      />
       <main>
         <Routes>
           <Route path="/" element={<Books />} />
