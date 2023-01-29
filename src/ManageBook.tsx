@@ -1,9 +1,10 @@
-import { Button, TextField } from "@mui/material";
+import { Button, CircularProgress, TextField } from "@mui/material";
 import { Stack } from "@mui/system";
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { NewBook } from "./Books";
-import { addBook } from "./services/books.service";
+import { useNavigate, useParams } from "react-router-dom";
+import { Book, NewBook } from "./Books";
+import useBook from "./hooks/useBook";
+import { addBook, editBook } from "./services/books.service";
 
 type Status = "idle" | "submitting" | "submitted";
 
@@ -14,13 +15,18 @@ type Touched = {
 };
 
 export default function ManageBook() {
+  const { id } = useParams();
   const navigate = useNavigate();
   const [status, setStatus] = useState<Status>("idle");
   const [touched, setTouched] = useState<Touched>({});
-  const [book, setBook] = useState<NewBook>({
+  const [book, setBook] = useState<NewBook | Book>({
     title: "",
     subject: "",
   });
+  const bookQuery = useBook(Number(id), setBook);
+
+  // Derived state
+  const isEditing = Boolean(id);
 
   function onChange(event: React.ChangeEvent<HTMLInputElement>) {
     setBook({
@@ -50,11 +56,11 @@ export default function ManageBook() {
   // Derived state
   const errors = getErrors();
 
-  console.log(errors);
+  if (isEditing && !bookQuery.data) return <CircularProgress />;
 
   return (
     <>
-      <h1>Add Book</h1>
+      <h1>{isEditing ? "Edit" : "Add"} Book</h1>
 
       <form
         onSubmit={async (event) => {
@@ -65,7 +71,11 @@ export default function ManageBook() {
             setStatus("submitted");
             return;
           }
-          await addBook(book);
+          if ("id" in book) {
+            await editBook(book);
+          } else {
+            await addBook(book);
+          }
           navigate("/");
         }}
       >
