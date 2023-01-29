@@ -1,7 +1,6 @@
 import { Box, CircularProgress } from "@mui/material";
-import { useQuery } from "@tanstack/react-query";
 import BookTable from "./BookTable";
-import { getBooks } from "./services/books.service";
+import useBooks from "./hooks/useBooks";
 
 export type Book = {
   id: number;
@@ -12,9 +11,7 @@ export type Book = {
 export type NewBook = Omit<Book, "id">;
 
 export default function Books() {
-  const bookQuery = useQuery(["books"], getBooks, {
-    initialData: [],
-  });
+  const bookQuery = useBooks();
 
   function renderResults() {
     if (bookQuery.data.length === 0 && bookQuery.isFetching) {
