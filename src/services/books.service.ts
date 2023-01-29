@@ -24,3 +24,15 @@ export async function addBook(newBook: NewBook): Promise<Book> {
   if (!response.ok) throw new Error(response.statusText);
   return response.json();
 }
+
+export async function editBook(book: Book): Promise<Book> {
+  const response = await fetch("http://localhost:3001/books/" + book.id, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(book),
+  });
+  if (!response.ok) throw new Error(response.statusText);
+  return response.json();
+}
