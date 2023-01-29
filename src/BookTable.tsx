@@ -13,6 +13,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import { useState } from "react";
 import { deleteBook } from "./services/books.service";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { Link } from "react-router-dom";
 
 type BookTableProps = {
   books: Book[];
@@ -47,7 +48,9 @@ export default function BookTable({ books }: BookTableProps) {
             <DeleteIcon />
           </IconButton>
         </TableCell>
-        <TableCell>{book.title}</TableCell>
+        <TableCell>
+          <Link to={"/manage-book/" + book.id}>{book.title}</Link>
+        </TableCell>
         <TableCell>{book.subject}</TableCell>
       </TableRow>
     );
