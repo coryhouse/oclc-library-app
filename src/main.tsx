@@ -13,7 +13,14 @@ import Navbar from "./reusable/Navbar";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 
+// TODO: This should be dynamically required in development only
+import { worker } from "./mocks/browser";
+
 const client = new QueryClient();
+
+if (import.meta.env.VITE_ENABLE_MOCKS === "Y") {
+  worker.start();
+}
 
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
   <React.StrictMode>
@@ -37,6 +44,7 @@ ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
             <Route path="/" element={<Books />} />
             <Route path="/about" element={<About />} />
             <Route path="/manage-book" element={<ManageBook />} />
+            <Route path="/manage-book/:id" element={<ManageBook />} />
           </Routes>
         </main>
       </BrowserRouter>
